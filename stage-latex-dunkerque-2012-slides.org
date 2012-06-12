@@ -1,0 +1,1570 @@
+#+TITLE:     Org mode pour LaTeXiens
+#+AUTHOR:    Fabrice Niessen
+#+EMAIL:     fni@missioncriticalit.com
+#+DATE:      2012-06-13
+#+Time-stamp: <2012-06-12 Tue 21:52 Fabrice on MEDIACENTER>
+#+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
+#+KEYWORDS:  stage, latex, org mode, dunkerque
+#+LANGUAGE:  fr_FR
+#+OPTIONS:   H:3 num:t toc:t
+#+EXPORT_EXCLUDE_TAGS: noexport
+
+#+LaTeX_HEADER: \lstdefinelanguage{org}{%
+#+LaTeX_HEADER:   morekeywords={:results, :session, :var, :noweb, :exports},
+#+LaTeX_HEADER:   sensitive=false,
+#+LaTeX_HEADER:   morestring=[b]",
+#+LaTeX_HEADER:   morecomment=[l]{\#},
+#+LaTeX_HEADER: }
+
+#+LaTeX_HEADER: \lstdefinelanguage{dot}{%
+#+LaTeX_HEADER:   morekeywords={graph},
+#+LaTeX_HEADER:   sensitive=false,
+#+LaTeX_HEADER: }
+
+#+LaTeX_HEADER: \lstset{%
+#+LaTeX_HEADER:   extendedchars=false,
+#+LaTeX_HEADER:   inputencoding=utf8x,
+#+LaTeX_HEADER:   %
+#+LaTeX_HEADER:   mathescape=false,
+#+LaTeX_HEADER:   escapechar=`, % allow escaping to (La)TeX mode within `..`
+#+LaTeX_HEADER:   columns=flexible,
+#+LaTeX_HEADER:   keepspaces=true
+#+LaTeX_HEADER:   %
+#+LaTeX_HEADER:   literate=
+#+LaTeX_HEADER:   {á}{{\'a}}1
+#+LaTeX_HEADER:   {à}{{\`a}}1
+#+LaTeX_HEADER:   {â}{{\^a}}1
+#+LaTeX_HEADER:   {ä}{{\"a}}1
+#+LaTeX_HEADER:   {é}{{\'e}}1
+#+LaTeX_HEADER:   {è}{{\`e}}1
+#+LaTeX_HEADER:   {ê}{{\^e}}1
+#+LaTeX_HEADER:   {ë}{{\"e}}1
+#+LaTeX_HEADER:   {í}{{\'i}}1
+#+LaTeX_HEADER:   {ì}{{\`i}}1
+#+LaTeX_HEADER:   {î}{{\^i}}1
+#+LaTeX_HEADER:   {ï}{{\"i}}1
+#+LaTeX_HEADER:   {ó}{{\'o}}1
+#+LaTeX_HEADER:   {ò}{{\`o}}1
+#+LaTeX_HEADER:   {ô}{{\^o}}1
+#+LaTeX_HEADER:   {ö}{{\"o}}1
+#+LaTeX_HEADER:   {ú}{{\'u}}1
+#+LaTeX_HEADER:   {ù}{{\`u}}1
+#+LaTeX_HEADER:   {û}{{\^u}}1
+#+LaTeX_HEADER:   {ü}{{\"u}}1
+#+LaTeX_HEADER: }
+
+#+LaTeX_HEADER: \usepackage{tikz}
+#+LaTeX_HEADER: \usepackage{pgfplots}
+
+
+#+LaTeX_HEADER: %the needed packages
+#+LaTeX_HEADER: \usepackage[absolute,showboxes,overlay]{textpos}
+#+LaTeX_HEADER: %\TPshowboxestrue % commenter une fois fini
+#+LaTeX_HEADER: \TPshowboxesfalse % décommenter pour faire disparaitre les boites
+#+LaTeX_HEADER: \textblockorigin{10mm}{10mm} % origine des positions
+#+LaTeX_HEADER: 
+#+LaTeX_HEADER: %adjust the TPHorizModule and TPHorizModule units to the displayed mm %grid
+#+LaTeX_HEADER: \TPGrid{210}{297}
+#+LaTeX_HEADER: 
+#+LaTeX_HEADER: %puts a graphic at the absolute position described by the grid
+#+LaTeX_HEADER: %#1 x, #2 y, #3 width, #4 height, #5 graphic
+#+LaTeX_HEADER: \newcommand\putpic[5]{%
+#+LaTeX_HEADER:         \begin{textblock}{#3}(#1,#2)
+#+LaTeX_HEADER:   \includegraphics[width=#3\TPHorizModule,
+#+LaTeX_HEADER:   height=#4\TPVertModule]{#5}
+#+LaTeX_HEADER:      \end{textblock}
+#+LaTeX_HEADER: }
+
+
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [frenchb,presentation,t,hideothersubsections]
+#+BEAMER_HEADER_EXTRA: \usetheme{mc}\usecolortheme{default}
+#+BEAMER_FRAME_LEVEL: 3
+#+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+
+#+BEAMER_HEADER_EXTRA: \logo{\includegraphics[height=2cm]{org-mode-unicorn}}
+
+#+LaTeX_HEADER: \usepackage{babel}
+
+#+SETUPFILE: ~/src/org-style/bigblow-local.setup
+
+#+begin_src latex :exports none
+% Sommaire local. En deux colonnes
+\begin{frame}{Plan}
+  \begin{columns}[t]
+  \begin{column}{5cm}
+  \tableofcontents[sections={1-4},currentsection, hideothersubsections]
+  \end{column}
+  \begin{column}{5cm}
+  \tableofcontents[sections={5-8},currentsection,hideothersubsections]
+  \end{column}
+  \end{columns}
+\end{frame}
+#+end_src
+
+* TODO Idées                                                        :noexport:
+
+** Mes slides
+
+Since my beginnings with Org mode, this text has been very helpful and
+often thought of translating it, now I can assist in the update.
+
+My first Org mode and rst talk slides:
+
+- http://pub.osiux.com/charlas/todo-txt-rst+org-mode-slides.pdf
+- http://osiux.com/todo-txt-rst+org-mode
+
+I have a copy in rst/html format in my blog:
+
+- http://osiux.com/raw/emacs-orgmode-organize-your-life-in-plain-text
+- http://osiux.com/emacs-orgmode-organize-your-life-in-plain-text
+
+** Autres présentations
+
+Voir :
+- https://github.com/vxc/org-mode-ws/blob/master/outline.org
+- https://github.com/novoid/org-mode-workshop
+- https://github.com/eschulte/babel-presentation
+
+* Introduction
+
+** LaTeX
+
+*** LaTeX
+
+- Documents ou présentations avec un rendu de haute qualité
+
+- Versions successives faciles à comparer grâce à, par exemple,
+  + Diff de CVS, SVN Git ou
+  + Ediff (Diff interactif)
+
+- Syntaxe pénible pour écrire des tableaux ou pour gérer des listes
+  imbriquées
+
+- Difficultés à convaincre vos collègues de passer à LaTeX
+
+** Org mode
+
+*** Définition
+
+- *Org mode*, [awr-g mohd], /noun/; \\
+  /Emacs major mode for note-taking, project planning, and authoring./
+
+#+LaTeX: \pause
+
+#+LaTeX: %\putpic{20}{20}{100}{100}{Carsten.png}
+
+#+begin_src latex
+%\begin{textblock*}{30mm}[0,0](180mm,40mm)
+\begin{textblock*}{10mm}[0,0](0.92\textwidth,22mm)
+    \includegraphics[width=17mm]{Carsten.png}
+\end{textblock*}
+#+end_src
+
+##+ATTR_LaTeX: width=1.7cm
+#[[file:Carsten.png]]
+
+- Créé en 2003 par Carsten Dominik
+  + Principal développeur et architecte jusqu'en fin 2010
+  + Repris par Bastien Guerry
+
+- [[http://orgmode.org/worg/org-tutorials/org-screencasts/org-mode-google-tech-talk.html][Google Tech Talk]] du 15 juillet 2008
+# stop the list
+
+#+begin_quote
+"Org mode does outlining, note-taking, hyperlinks, spreadsheets, TODO lists,
+project planning, GTD, HTML and LaTeX authoring, all with plain text files in
+Emacs." -- Carsten Dominik
+#+end_quote
+
+*** Org mode
+
+- *Balisage* virtuellement nul, syntaxe "à la Wiki" *très lisible* (aussi facile à
+  lire que du texte brut)
+
+- *Rédaction* d'un document ou d'une présentation aussi *simple* que l'écriture
+  d'un /email/
+
+- Fantastique éditeur de *listes* et de *tables* (disponible en mode mineur)
+
+- Difficultés à convaincre vos collègues de passer à... Emacs[fn:1]
+
+*** Org mode \\ Possibilités supplémentaires par rapport à LaTeX
+
+- /Outlining/ [fn:2]
+- Tableur
+- Statut (TODO / DONE) et /tags/ sur les sections
+- Export vers HTML (site Web), LibreOffice, etc.
+- Fonctions de recherche avancée
+- ...
+# stop the list
+
+#+begin_quote
+At its core, Org mode is a simple outliner for *note-taking* and *[task] list
+management*. You can learn the basics for using it in five minutes. This may
+be all you need, and Org mode will not impose more complex features on you.
+-- http://orgmode.org/
+#+end_quote
+
+* Structuration
+
+** Fichier
+
+*** Fichier \\ Généralités
+
+- Extension du nom de fichier : =.org=
+- Codage (=latin1=, =utf8=) auto-détecté
+- Codage =T1= (= défaut) pour l'accès aux /glyphes/ des fontes
+
+*** Fichier \\ Classes
+
+- Classes connues dans la liste =org-export-latex-classes=
+  + =article=
+  + =report=
+  + =book=
+  + =beamer=
+
+- Classe par défaut dans la variable =org-export-latex-default-class=
+  + =article=
+
+- Paramétrage dans un fichier
+
+#+begin_src org :exports code
+,#+LaTeX_CLASS: report
+,#+LaTeX_CLASS_OPTION: [12pt]
+#+end_src
+
+** Packages
+
+*** Packages par défaut \\ Packages insérés dans chaque en-tête LaTeX
+
+- =org-export-latex-default-packages-alist=
+  + =inputenc=, =fontenc= pour la sélection des types de caractères et de fontes
+  + =textcomp=, =marvosymb=, =wasysym=, =latexsym=, =amssym= pour les divers symboles
+  + =graphicx= pour l'inclusion d'images
+  + =float=, =wrapfig= pour le placement des figures
+  + =longtable= pour les longues tables
+  + =hyperref= pour les références croisées
+
+- =org-export-latex-packages-alist=
+  + Liste vide, par défaut
+
+** Titre
+
+*** Titre
+
+#+begin_src org :exports code
+,#+TITLE:     Org mode pour LaTeXiens
+,#+AUTHOR:    Fabrice Niessen
+,#+DATE:      13 juin 2012
+#+end_src
+
+** Sectionnement
+
+*** Sectionnement
+
+- Une étoile par niveau de profondeur[fn:3]
+
+#+begin_src org :exports code
+,* Heading de niveau 1
+,** Heading de niveau 2
+,*** Heading de niveau 3
+,**** Heading de niveau 4
+,...
+,...
+,...
+,************** Heading de niveau 14
+#+end_src
+
+- =M-RET= :: Insérer un nouvel /heading/[fn:4]
+
+*** Sectionnement \\ Édition de la structure
+
+- *Section*
+  + =M-left= :: Promouvoir[fn:5] la section
+  + =M-right= :: "Démouvoir"[fn:6] la section
+
+- *Sous-arbre*
+  + =M-S-up= :: Déplacer le sous-arbre vers le haut[fn:7]
+  + =M-S-down= :: Déplacer le sous-arbre vers le bas
+  + =M-S-left= :: Promouvoir le sous-arbre
+  + =M-S-right= :: "Démouvoir" le sous-arbre
+
+*** Sectionnement \\ Visibilité
+
+- =S-TAB= :: Cycler, dans tout le *fichier*, entre 3 états
+  1. Afficher les niveaux 1 uniquement
+  2. Afficher tous les niveaux
+  3. Afficher tout
+
+#+begin_src org :exports code
+,* Introduction...
+,* Expériences...
+,* Résultats...
+,* Conclusions...
+#+end_src
+
+- =TAB= :: Cycler, dans un *sous-arbre*, entre 3 états
+  1. Afficher le niveau courant uniquement
+  2. Afficher les niveaux enfants directs
+  3. Afficher tout
+
+*** Sectionnement \\ Visibilité
+
+- =M-x hide-other= :: Cacher tout sauf la section courante et les /headings/ parents
+- =C-c C-r= (reveal) :: Montrer la section courante, la hiérarchie au-dessus, et
+  le /heading/ suivant
+
+*** Sectionnement \\ Navigation
+
+- =C-c C-n= (next) :: Se déplacer vers la prochaine section
+- =C-c C-p= (previous) :: Se déplacer vers la section précédente
+- =C-c C-f= (forward) :: Se déplacer vers la prochaine section de même niveau
+- =C-c C-b= (backward) :: Se déplacer vers la section précédente de même niveau
+- =C-c C-u= (up) :: Se déplacer vers la section de niveau supérieur
+
+** Mises en forme
+
+*** Mises en forme
+
+- Marqueurs
+  + Normal
+  + \textbf{*Gras*}
+  + \emph{/Italique/}
+  + \underline{\_Souligné\_}
+  + \texttt{=Code=}
+  + \textasciitilde{} ~Verbatim~ \textasciitilde{}
+  + \alert{@Alerte@} [fn:8]
+
+- Cachés dans le /buffer/ Org avec
+
+#+begin_src latex :exports code
+  (setq org-hide-emphasis-markers t)
+#+end_src
+
+*** Mises en forme
+
+- Source Org
+
+#+begin_src org :exports code
+Il est _vraiment_ facile d'écrire *plein* de /distractions/.
+Ceci est du =co\de=.
+Ceci est du ~verb_atim~.
+#+end_src
+
+- Export LaTeX
+
+#+begin_src latex :exports code
+Il est \underline{vraiment} facile d'écrire \textbf{plein} de
+\emph{distractions}.
+Ceci est du \texttt{co\textbackslash{}de}.
+Ceci est du \verb~verb_atim~.
+#+end_src
+
+- Effet
+
+Il est _vraiment_ facile d'écrire *plein* de /distractions/.
+Ceci est du =co\de=.
+Ceci est du ~verb_atim~.
+
+*** Mises en forme
+
+- Contenu du fichier
+  + =#= :: Commentaire (en colonne 0)
+  + =#+= :: Commentaire /inline/ (n'arrête pas les listes)
+
+- Caractères spéciaux
+  + =^= :: Exposant
+  + =_= :: Indice
+  + =-= :: Tiret court
+  + =--= :: Tiret moyen
+  + =---= :: Tiret long
+
+** Listes structurées
+
+*** Listes structurées \\ Listes à puces
+
+#+begin_src org :exports code
+,- pain
+,- vin
+,- Boursin
+#+end_src
+
+#+begin_src latex :exports code
+\begin{itemize}
+\item pain
+\item vin
+\item Boursin
+\end{itemize}
+#+end_src
+
+- =C-c ^= :: Trier les *éléments* (aussi pour les *sections*)
+- =C-c -= (ou =S-left/right=) :: Changer le style de puce
+
+*** Listes structurées \\ Listes à puces
+
+#+begin_src org :exports code
+,- pain
+,  + vin
+,    * Boursin
+#+end_src
+
+#+begin_src latex :exports code
+\begin{itemize}
+\item pain
+  \begin{itemize}
+  \item vin
+    \begin{itemize}
+    \item Boursin
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+#+end_src
+
+*** Listes structurées \\ Listes à puces avec boîtes à cocher
+
+- Gestion de tâches allégée
+  + =[ ]= :: À faire
+  + =[-]= :: En cours
+  + =[X]= :: Fait
+  + =C-c C-c= :: Inverser la boîte à cocher
+
+- Affichage du résultat
+  + =[/]= :: =x= sur =y=
+  + =[%]= :: En pourcentage
+
+#+begin_src org :exports code
+,* Organiser une fête [33%]
+,  - [-] Contacter les invités [1/2]
+,    + [ ] Pierre
+,    + [X] Sarah
+,  - [X] Commander la nourriture
+,  - [ ] Choisir la musique
+#+end_src
+
+*** Listes structurées \\ Listes numérotées
+
+#+begin_src org :exports code
+,1. Premier
+,2. Second
+,5. [@5] Saut vers le 5\ieme{} point
+#+end_src
+
+1. Premier
+2. Second
+5. [@5] Saut vers le 5\ieme{} point
+
+*** Listes structurées \\ Listes de description
+
+#+begin_src org :exports code
+,- Biologie :: Étude de la vie.
+,- Physique :: Science de la matière et de son mouvement.
+,- Psychologie :: Étude du comportement.
+#+end_src
+
+#+begin_src latex :exports code
+\begin{description}
+\item[Biologie] Étude de la vie.
+\item[Physique] Science de la matière et de son mouvement.
+\item[Psychologie] Étude du comportement.
+\end{description}
+#+end_src
+
+- Biologie :: Étude de la vie.
+- Physique :: Science de la matière et de son mouvement.
+- Psychologie :: Étude du comportement.
+
+** Notes de bas de page
+
+*** Notes de bas de page
+
+- =C-c C-x f=
+  + Insérer une nouvelle note de bas de page, ou
+  + Sauter de la référence à la définition, ou
+  + Sauter de la définition à la référence
+
+#+begin_src org :exports code
+Il est facile de créer une note de bas de page[fn:9]
+...
+...
+[fn:9] Un exemple de note de bas de page.
+#+end_src
+
+#+begin_src latex :exports code
+Il est facile de créer une note de bas de page\footnote{Un exemple
+de note de bas de page.}
+#+end_src
+
+- Il est facile de créer une note de bas de page[fn:9]
+
+** Références
+
+*** Références
+
+- Hyperliens internes
+- Hyperliens externes
+  + Fichiers (=file=)
+  + Pages Web (=http=)
+  + Mails ou articles de /news/ sous Gnus (=gnus=)
+  + Contact (=bbdb=)
+
+*** Références hypertexte \\ Référence vers une ancre =ID=
+
+- Référence vers une section
+  + =C-c l= :: (Sur une section) Insérer une ancre générée aléatoirement (dans
+    la propriété =ID=)
+  + =C-c C-l= :: (N'importe où) Insérer une référence vers une ancre
+
+#+begin_src org :exports code
+,Nous verrons ... à la section
+[[id:d34b788e-112d-4d8f-8749-d52b627d7bc2][Définitions]]
+
+,** Définitions
+,   :PROPERTIES:
+,   :ID:       d34b788e-112d-4d8f-8749-d52b627d7bc2
+,   :END:
+#+end_src
+
+*** Références hypertexte \\ Référence vers une ancre =CUSTOM_ID=
+
+- Référence vers une section nommée (via la propriété =CUSTOM_ID=)
+
+#+begin_src org :exports code
+,Nous verrons ... à la section
+[[#definitions][Définitions]]
+
+,** Définitions
+,   :PROPERTIES:
+,   :CUSTOM_ID: definitions
+,   :END:
+#+end_src
+
+** Commandes personnelles                                           :noexport:
+
+*** Commandes personnelles \\ Preprocessing
+
+- Principe
+
+  #+begin_src org :exports code
+  ,#+MACRO: name replacement
+  #+end_src
+
+  #+begin_src org :exports code
+  ,{{{name}}}
+  #+end_src
+
+- Exemple avec paramètre
+
+  #+begin_src org :exports code
+  ,#+MACRO: key \textcolor{orange}{\texttt{$1}}
+  #+end_src
+#+MACRO: key \textcolor{orange}{\texttt{$1}}
+
+- Chaque fois que l'on écrit
+
+  #+begin_src org :exports code
+  ,{{{key(C-something)}}}
+  #+end_src
+
+  cela donne {{{key(C-something)}}} lors de l'export LaTeX
+
+** Longs documents
+
+*** Gestion de longs documents
+
+- Inclure un fichier lors de l'export
+
+  #+begin_src org :exports code
+  ,#+INCLUDE: "~/.emacs" src emacs-lisp
+  #+end_src
+
+- Inclure les lignes 5 à 10 (ligne 10 exclue)
+
+  #+begin_src org :exports code
+  ,#+INCLUDE: "~/.emacs" :lines "5-10"
+  #+end_src
+
+- Inclure toutes les lignes à partir de la ligne 5
+
+  #+begin_src org :exports code
+  ,#+INCLUDE: "~/.emacs" :lines "10-"
+  #+end_src
+
+*** Setupfile
+
+- =#+SETUPFILE:=
+
+* Composition
+
+** Équations
+
+*** Équations \\ Formule en ligne
+
+#+begin_src org :exports code
+Il est clair que $1 \neq 2$, n'est-ce pas ?
+#+end_src
+
+Il est clair que $1 \neq 2$, n'est-ce pas ?
+
+*** Équations \\ Formule hors ligne "simple"
+
+#+begin_src org :exports code
+\[
+\left( \int_0^\infty \frac{\sin x}{\sqrt x}\,\mathrm{d}x \right)^2 -
+\prod_{k=1}^\infty \frac{4k^2}{4k^2-1} +
+\frac{\lambda}{2n}\sum_{k=1} ^n \theta_k ^2 x^n = 0
+\]
+#+end_src
+
+\[
+\left( \int_0^\infty \frac{\sin x}{\sqrt x}\,\mathrm{d}x \right)^2 -
+\prod_{k=1}^\infty \frac{4k^2}{4k^2-1} +
+\frac{\lambda}{2n}\sum_{k=1} ^n \theta_k ^2 x^n = 0
+\]
+
+Preuve laissée au lecteur...
+
+*** Équations \\ Formule hors ligne numérotée
+
+Densité de probabilité de la distribution gaussienne
+
+#+begin_src org :exports code
+\begin{equation}
+  \frac{1}{\sqrt{2\pi\sigma^2}}e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
+\end{equation}
+#+end_src
+
+\begin{equation}
+  \frac{1}{\sqrt{2\pi\sigma^2}}e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
+\end{equation}
+
+*** Équations \\ Raccourcis
+
+- =C-c C-x C-l= :: Prévisualiser le fragment LaTeX... courant
+- =C-u C-c C-x C-l= :: ... du sous-arbre local
+- =C-u C-u C-c C-x C-l= :: ... du /buffer/ entier
+- =C-c C-c= :: Enlever les images de prévisualisation
+
+** Symboles spéciaux
+
+*** Symboles spéciaux \\ Fichier ~lisp/org-entities.el~
+
+- Lettres :: =\Agrave= = \Agrave, =\Aacute= = \Aacute, ...
+- Lettres grecques :: =\alpha= = \alpha, =\beta= = \beta, ...
+- Ponctuation :: =\iexcl= = \iexcl, =\iquest= = \iquest, ...
+- Monnaie :: =\cent= = \cent, =\EUR= = \EUR, ...
+- Marques :: =\copy= = \copy, =\reg= = \reg, ...
+- Science :: =\pm= = \pm, =\div= = \div, ...
+- Flèches :: =\larr= = \larr, =\to= = \to, ...
+- Fonctions :: =\arccos= = \arccos, =\cos= = \cos, ...
+- Symboles :: =\bull= = \bull, =\star= = \star, ...
+- Divers :: =\para= = \para, =\ordf= = \ordf, ...
+- Binettes :: =\smiley= = \smiley, =\sad= = \sad, ...
+- Cartes :: =\clubs= = \clubs, =\spades= = \spades, ...
+
+** Tableaux
+
+*** Tableaux
+
+#+begin_src org :exports code
+,#+CAPTION: Chiffres de ventes
+,#+ATTR_LaTeX: align=|l|r|
+,|---------+---------|
+,| Mois    | Montant |
+,|---------+---------|
+,| Janvier |    1300 |
+,|---------+---------|
+,| Février |    1280 |
+,|---------+---------|
+,| Mars    |    1500 |
+,|---------+---------|
+#+end_src
+
+#+CAPTION: Chiffres de ventes
+#+ATTR_LaTeX: align=|l|r|
+|---------+---------|
+| Mois    | Montant |
+|---------+---------|
+| Janvier |    1300 |
+|---------+---------|
+| Février |    1280 |
+|---------+---------|
+| Mars    |    1500 |
+|---------+---------|
+
+*** Tableaux \\ Création
+
+- À partir de rien
+  + Insérer 2 barres verticales
+  + Appuyer sur =TAB=
+  + Pour insérer une nouvelle ligne, appuyer sur =M-S-down=
+  + Pour insérer une nouvelle colonne, appuyer sur =M-S-right=
+
+- À partir de données formatées en colonne, appuyer sur =C-c |=
+  + Données séparées par =TAB=
+  + Données séparées par une virgule (CSV)
+  + Données séparées par un ou plusieurs espaces consécutifs
+
+*** Tableaux \\ Édition
+
+- Pour supprimer
+  + =M-S-up= :: la ligne courante
+  + =M-S-left= :: la colonne courante
+- Pour déplacer la ligne courante
+  + =M-up= :: vers le haut
+  + =M-down= :: vers le bas
+- Pour déplacer la colonne courante
+  + =M-left= :: vers la gauche
+  + =M-right= :: vers la droite
+- Numériques alignés à droite par défaut
+
+*** Tableaux \\ Édition
+
+- =S-RET= :: 
+  + Si cellule courante vide, copier le contenu de la cellule supérieure la
+    plus proche (avec incrément, si cellule numérique ou date)
+  + Sinon, copier le contenu courant dans la cellule inférieure
+- =C-c C-c= :: Réaligner la table
+- =C-c -= :: Insérer une ligne horizontale
+- =C-c ^= :: Trier la table sur la colonne courante
+  + =a= :: ordre alphabétique
+  + =A= :: ordre alphabétique inverse
+  + =n= :: ordre numérique
+  + =N= :: ordre numérique inverse
+
+*** Tableau Org dans source LaTeX
+
+- Utiliser un environnement =comment=
+
+  #+begin_src latex :exports code
+   % BEGIN RECEIVE ORGTBL chiffresdeventes
+   % END RECEIVE ORGTBL chiffresdeventes
+   \begin{comment}
+   #+ORGTBL: SEND chiffresdeventes orgtbl-to-latex
+   | Mois    | HTVA | TVAC |
+   |---------+------+------|
+   | Janvier | 1300 | 1568 |
+   | Février | 1280 | 1544 |
+   | Mars    | 1500 | 1809 |
+   |---------+------+------|
+   | Total   | 4080 | 4921 |
+   #+TBLFM: $3=$2*1.206;%.0f::@5$2..@5$3=vsum(@2..@4)
+   % $ (optional extra dollar to keep font-lock happy)
+   \ end{comment}
+  #+end_src
+
+- Appuyer sur =C-c C-c= pour exporter le tableau en LaTeX
+
+*** Tableur \\ Références
+
+- Référence absolue (format interne) =@l$c=
+
+#+begin_verbatim
+   $1  $2
+@1|   |   |
+@2|   |   |
+#+end_verbatim
+
+- Référence relative =@+l$-c=
+  + Omettre la ligne ou colonne, si ligne ou colonne *courante*
+
+- Référence symbolique
+  + =@<= ou =$<= :: Première ligne ou colonne
+  + =@<<= ou =$<<= :: Deuxième ligne ou colonne
+  + ... :: 
+  + =@>>= ou =$>>= :: Avant-dernière ligne ou colonne
+  + =@>= ou =$>= :: Dernière ligne ou colonne
+
+*** Tableur \\ Références
+
+- Ligne horizontale
+  + =@I= :: Première /hline/
+  + =@II= :: Deuxième /hline/
+  + ... :: 
+  + =@-I= :: Première /hline/ au-dessus de la ligne courante
+  + =@+I= :: Première /hline/ en-dessous de la ligne courante
+
+- /Range/ =@l$c..@l$c=
+
+- Référence externe =remote(nom-de-table,référence)=
+
+*** Tableur \\ Calculs
+
+- =C-c == :: Insérer une formule *colonne* =$c==
+- =C-u C-c == :: Insérer une formule *cellule* =@l$c==
+- À la main :: Insérer une formule *range de cellules en ligne* =@l$c..@l$c==
+
+*** Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)
+
+- Math
+  + =vsum(range)= :: Somme
+  + =vprod(range)= :: Produit
+  + =exp(x)= :: Exponentielle
+  + =sin(x)= :: Sinus
+  + =cos(x)= :: Cosinus
+  + =tan(x)= :: Tangente
+
+*** Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)
+
+- Statistique
+  + =vmean(range)= :: Moyenne arithmétique
+  + =vmedian(range)= :: Médiane
+  + =vmin(range)= :: Minimum
+  + =vmax(range)= :: Maximum
+  + =vcount(range)= :: Nombre de valeurs
+  + =vgmean(range)= :: Moyenne géométrique
+  + =vsdev(range)= :: Déviation standard
+  + =vvar(range)= :: Variance
+
+*** Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)
+
+- Logique
+  + =if(test,value-true,value-false)= :: Condition
+
+- Texte
+  + =string("")= :: /String/ vide
+
+*** Tableur \\ Format
+
+- =%.nf= :: /Float/ avec /n/ décimales pour =printf=
+- =t= :: Durée (sous forme de fraction)
+- =T= :: Durée (sous forme =HH:MM:SS=)
+
+*** Tableur \\ Assistance à l'édition de la ligne =#+TBLFM=
+
+- =C-c }= :: Inverser l'affichage des références
+- =C-u C-u C-c == :: Éditer une formule dans le tableau
+  + =C-c ?= :: Mettre en évidence les cellules référencées au point
+- C-c ' :: Éditer les formules dans un /buffer/ spécial
+  + =S-up/down/left/right= :: Modifier la référence courante
+- =C-c {= :: Activer le débogueur (montrer l'historique de substitution pour les
+  formules)
+
+*** Tableur
+
+#+begin_src org :exports code
+,#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
+,| Janvier | 1300 |
+,| Février | 1280 |
+,| Mars    | 1500 |
+,|---------+------|
+,| Total   | 4080 |
+,#+TBLFM: @4$2=vsum(@1..@3)
+#+end_src
+
+- =C-c *= :: Ré-appliquer les formules... pour la *ligne courante*
+- =C-u C-c *= :: ... pour toutes les lignes de la table
+- =C-u C-u C-c *= :: ... jusqu'à ce que la *table* soit *stable*
+
+#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
+| Janvier | 1300 |
+| Février | 1280 |
+| Mars    | 1500 |
+|---------+------|
+| Total   | 4080 |
+#+TBLFM: @4$2=vsum(@1..@3)
+
+*** Table distante
+
+- Remote
+
+** Figures
+
+*** Figure
+
+#+begin_src org :exports both
+,#+ATTR_LaTeX: width=.25\linewidth
+,#+CAPTION: Exemple d'image (au format PNG)
+,[[file:Carsten.png]]
+#+end_src
+
+#+ATTR_LaTeX: width=.25\linewidth
+#+CAPTION: Exemple d'image (au format PNG)
+[[file:Carsten.png]]
+
+- =C-c C-x C-v= :: Inverser l'affichage des images /inline/
+
+*** Multicolonne                                                    :noexport:
+
+*** Autre figure                                                    :noexport:
+
+#+CAPTION: A sample black and white graphic (.png format) that needs to span two columns of text
+#+ATTR_LaTeX: multicolumn
+[[file:c:/cygwin/usr/share/doc/dbus/diagram.png]]
+
+** Graphiques
+
+*** Graphiques R
+
+#+begin_src R :results graphics :file testout.png
+plot(1:10, (1:10)^2)
+#+end_src
+
+#+results:
+[[file:testout.png]]
+
+*** Graphiques Dot
+
+#+TBLNAME: R-plot-example-data
+| 1 |  2 |
+| 2 |  4 |
+| 3 |  9 |
+| 4 | 16 |
+| 5 | 25 |
+
+#+name: R-plot
+#+begin_src R :var data=R-plot-example-data
+plot(data)
+#+end_src
+
+#+call: R-plot(data=R-plot-example-data)
+
+*** Graphiques Dot
+
+#+begin_src dot :file foo.pdf :cmdline -Tpdf :exports both
+digraph G {
+  todo -> done [label="quick", style=dashed];
+  todo -> started [label="in progress"]; started -> done;
+  todo -> waiting; waiting -> todo;
+  todo -> delegated; delegated -> done;
+  started [shape=Mdiamond, label="strt"];
+  waiting [shape=polygon, sides=5, peripheries=3];
+  done [style=bold];
+}
+#+end_src
+
+*** Graphiques TikZ
+
+#+begin_src latex :exports code
+\begin{tikzpicture}[scale=1.0]
+  \begin{axis}[
+    height=7cm, width=10cm,
+    ymin=0, % smooth,
+    stack plots=y, area style,
+    enlarge x limits=false,
+    xlabel={Mois}, symbolic x coords={Jan,Fév,Mar,Avr,Mai,Juin,Juil,
+      Aoû,Sep,Oct,Nov,Déc},
+    xtick=data,
+    ylabel={Degrés C},
+    title={Températures moyennes à Dunkerque}]
+    \addplot coordinates {
+      (Jan,3.8) (Fév,4.1) (Mar,6.3) (Avr,9.0)
+      (Mai,11.9) (Juin,15.1) (Juil,17.1) (Aoû,17.4)
+      (Sep,15.7) (Oct,11.8) (Nov,7.7) (Déc,4.8)}
+      \closedcycle;
+  \end{axis}
+\end{tikzpicture}
+#+end_src
+
+*** Graphiques TikZ
+
+#+begin_src latex
+\begin{tikzpicture}[scale=1.0]
+  \begin{axis}[
+    height=7cm, width=10cm,
+    ymin=0, % smooth,
+    stack plots=y, area style,
+    enlarge x limits=false,
+    xlabel={Mois}, symbolic x coords={Jan,Fév,Mar,Avr,Mai,Juin,Juil,
+      Aoû,Sep,Oct,Nov,Déc},
+    xtick=data,
+    ylabel={Degrés C},
+    title={Températures moyennes à Dunkerque}]
+    \addplot coordinates {
+      (Jan,3.8) (Fév,4.1) (Mar,6.3) (Avr,9.0)
+      (Mai,11.9) (Juin,15.1) (Juil,17.1) (Aoû,17.4)
+      (Sep,15.7) (Oct,11.8) (Nov,7.7) (Déc,4.8)}
+      \closedcycle;
+  \end{axis}
+\end{tikzpicture}
+#+end_src
+
+** Citations
+
+*** Citations
+
+#+begin_src org :exports code
+,#+begin_quote
+,We have seen that computer programming is an art,
+,because it applies accumulated knowledge to the world,
+,because it requires skill and ingenuity, and especially
+,because it produces objects of beauty.
+,-- Donald E. Knuth (Communications of the ACM, December 1974)
+,#+end_quote
+#+end_src
+
+#+begin_quote
+We have seen that computer programming is an art,
+because it applies accumulated knowledge to the world,
+because it requires skill and ingenuity, and especially
+because it produces objects of beauty.
+-- Donald E. Knuth (Communications of the ACM, December 1974)
+#+end_quote
+
+** Listings informatiques
+
+*** Listings informatiques
+
+#+begin_src org :exports code
+,#+begin_src sql
+,SELECT *
+,FROM inventory
+,WHERE product IN
+,     (SELECT product
+,      FROM orders
+,      WHERE customer IN ('Pierre','Sarah'));
+,#+end_src
+#+end_src
+
+#+begin_src sql
+SELECT *
+FROM inventory
+WHERE product IN
+     (SELECT product
+      FROM orders
+      WHERE customer IN ('Pierre','Sarah'));
+#+end_src
+
+** Blocs
+
+*** Insertion d'environnements \\ Easy templates =org-structure-template-alist=
+
+- Paires =#+BEGIN_xxx= et =#+END_xxx=
+  + =< s TAB= :: Insérer un bloc /src/
+  + =< e TAB= :: Insérer un bloc /example/
+  + =< q TAB= :: Insérer un bloc /quote/
+  + =< v TAB= :: Insérer un bloc /verse/
+  + =< c TAB= :: Insérer un bloc /center/
+
+*** Insertion d'environnements \\ Easy templates =org-structure-template-alist=
+
+- LaTeX
+  + =< l TAB= :: Insérer un bloc /latex/
+  + =< L TAB= :: Insérer une directive /latex/
+
+- HTML
+  + =< h TAB= :: Insérer un bloc /html/
+  + =< H TAB= :: Insérer une directive /html/
+
+- ASCII
+  + =< a TAB= :: Insérer un bloc /ascii/
+  + =< A TAB= :: Insérer une directive /ascii/
+
+- Autres
+  + =< i TAB= :: Insérer une directive /index/
+  + =< I TAB= :: Insérer une directive /include/
+
+*** Verbatim
+
+#+begin_src org :exports code
+,#+begin_verbatim
+,L'environnement  verbatim  affiche exactement ce que
+,     l'on écrit, e s p a c e s compris!
+,#+end_verbatim
+#+end_src
+
+#+begin_src latex :exports code
+\begin{verbatim}
+L'environnement  verbatim  affiche exactement ce que
+     l'on écrit, e s p a c e s compris!
+\end{verbatim}
+#+end_src
+
+#+begin_verbatim
+L'environnement  verbatim  affiche exactement ce que
+     l'on écrit, e s p a c e s compris!
+#+end_verbatim
+
+*** Commentaire
+
+#+begin_src org :exports code
+#+begin_comment
+Quelques paragraphes qui ne vont pas apparaître dans le PDF.
+#+end_comment
+#+end_src
+
+Quelques paragraphes qui ne vont pas apparaître dans le PDF.
+
+#+begin_comment
+Quelques paragraphes qui ne vont pas apparaître dans le PDF.
+#+end_comment
+
+** Dissertation
+
+*** Dissertation
+
+#+begin_src org :exports code
+,* Introduction...
+,* Methodology...
+,* Findings...
+,* Conclusion...
+,* References...
+,#+LaTeX: \appendix
+,* Appendix A...
+,* Appendix B...
+#+end_src
+
+Use the =\appendix= command to turn on alphabetic numbering.
+
+# See [[file:~/Examples/Org-scraps/shortthesis.txt]]
+
+* Export LaTeX
+
+** Options
+
+*** Options d'export \\ Quelques options courantes
+
+- =H:3= :: *Nombre de niveaux de titre* (sections)
+- =num:t= :: *Numérotation des sections*
+- =toc:t= :: *Table des matières* (éventuellement limitée à un @nombre de niveaux@)
+- =^:nil= :: Interprétation des =_= et =^= comme /indice/ et /exposant/
+
+*** Options d'export \\ Quelques options avancées
+
+- =d:nil= :: Inclusion des /drawers/ (éventuellement limitée à @certains tiroirs@)
+- =todo:t= :: Inclusion des mots-clés =TODO=
+- =tags:not-in-toc= :: Inclusion des /tags/ (éventuellement limitée au @titre des
+  sections@)
+
+*** Options d'export \\ /Template/ inséré via =C-c C-e t=
+
+#+begin_src org :exports code
+,#+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
+,#+KEYWORDS:  stage, latex, org-mode, dunkerque
+,#+LANGUAGE:  fr
+,#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+,#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:t tags:not-in-toc
+,#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0
+,#+INFOJS_OPT: path:http://orgmode.org/org-info.js
+,#+EXPORT_SELECT_TAGS: export
+,#+EXPORT_EXCLUDE_TAGS: noexport
+#+end_src
+
+** Commande
+
+*** Commande interactive
+
+- =C-c C-e= (export) :: Afficher le menu d'export
+  + ... =l= (latex) :: Exporter en LaTeX
+  + ... =p= (process) :: ... et générer le PDF[fn:10]
+  + ... =d= (display) :: ... et ouvrir le PDF
+
+*** Commande batch
+
+- Possibilité d'automatiser la génération d'un PDF via un ~Makefile~
+
+#+begin_src sh :exports code
+EMACS_BATCH = emacs --batch -Q
+ORG_FLAGS = --eval "(add-to-list 'load-path \"~/src/org-mode/lisp\")"
+ORG_BATCH = $(EMACS_BATCH) $(ORG_FLAGS) -l org-batch-init.el
+
+# Export an Org document to PDF
+%.pdf: %.org
+	@echo "Exporting $< to PDF..."
+	@$(ORG_BATCH) $< -f org-export-as-pdf
+	@echo "$@ successfully generated"
+#+end_src
+
+* Avancé
+
+** Usages
+
+*** Usages avancés
+
+- Attacher des /tags/ aux sections (et export sélectif)
+
+  Cas d'école : générer un document avec les questions d'examen uniquement, et
+  un autre avec les questions et les réponses
+
+- Attacher un statut aux sections (TODO / DONE)
+
+- Vue /sparse tree/ des actions à faire
+
+- Attacher des dates aux tâches ou événements
+  + =SCHEDULED=
+  + =DEADLINE=
+  + /time-stamp/ actif
+
+- Vue agenda consolidant les actions et événements de plusieurs fichiers en
+  une seule vue
+
+- Calendrier CalFW
+
+*** Usages avancés
+
+- Support de /Beamer/
+
+- Export en ASCII, en HTML et en LibreOffice
+
+- Mode de capture des actions ou idées
+
+- Org-Babel
+
+- /Tracking/ du temps passé
+
+** Crypt
+
+*** Crypt
+
+- Mots de passe stockés dans le fichier adéquat
+- Cryptage lors de la sauvegarde du fichier
+- /Heading/ reste en clair, donc utilisable dans les recherches
+
+#+begin_src org :exports code
+,*** Actions à prendre
+
+,*** Mots de passe                                           :crypt:
+
+,- client :: secret
+,- serveur :: chuuut!
+#+end_src
+
+*** Crypt
+
+#+begin_src org :exports code
+,*** Actions à prendre
+
+,*** Mots de passe                                           :crypt:
+,-----BEGIN PGP MESSAGE-----
+,Version: GnuPG v1.4.12 (Cygwin)
+
+,6BAkIVZDQ6uOYYkNFnG+tPNsObt3DJVQvoR43xNzvjQtqYDSXEcA3bVk3a5341N7
+,hp1OszldNgWX5jR9RE6bYri8+57KdXnPbuXFM8wREdTudoXvth66tIud4MjF6UEF
+,HyeZ6MfQR2YkEDB1L2ZdeOKLuZZLe+qpxEVskuAQPX2/VydcCBYQufNB52j1APn6
+,6pIP0ZWyIa/qvWEfniq+Aqf33OBBQxTtRiXumlXXjacfTcifPnzKUFTvssyf6obr
+,oXGATiB8PoThpwqOAmrVNb8no4zVgA5k6D+Lx96WucQNqpsuh4eNMbl0ku5X8nfq
+,htJjAV5fbkB2nmxJVWym+dfjhe17xlP2VzmdFCL66rr254zNBNogcAZyney7iJsI
+,/ScwsDd2+U19+DXXKHeph1b8r92oE/Z8NKlGshZHVw+laN8a1Bnn6kDaRSHUf+w4
+,AqRo44YT
+,=zVC2
+,-----END PGP MESSAGE-----
+#+end_src
+
+- =M-x org-decrypt-entry= :: Décrypter la section
+
+** GTD
+
+*** Getting Things Done
+
+- =C-c C-q= :: Attacher un ou plusieurs /tags/
+- =C-c C-t= :: Changer le statut
+- =C-c C-x t= :: Insérer une /inline task/ (si paquet =org-inlinetask= chargé) :
+  niveau 15 et suivants
+
+  #+begin_src org :exports code
+  ,*************** TODO Faire ceci
+  ,Description...
+  ,*************** END
+  #+end_src
+
+** Agenda
+
+*** Agenda
+
+Avec tâches répétitives
+
+** Autres exports
+
+*** Autres exports
+
+- =C-c C-e h/b= (html/browser) :: Export HTML
+- =C-c C-e P= (project) :: Site Web
+- =C-c C-e o/O= (ODT) :: Export LibreOffice
+
+** Recherche avancée
+
+*** Recherche avancée
+
+1. Helm-Imenu (H1 / H2)
+2. =(C-u) C-c C-j=
+3. =C-c a < s *term=
+4. =(C-s) C-o= (occur)
+5. =C-c / / regexp=
+
+*** Helm Imenu
+
+- Affichage de tous les /headings/ de niveau 1 et 2
+
+#+begin_src org :exports code
+Introduction / LaTeX
+Introduction / Org mode
+Structuration / Fichier
+Structuration / Packages
+Structuration / Titre
+Structuration / Sectionnement
+#+end_src
+
+- Possibilité de limiter la liste avec une /regexp/
+
+- =RET= saute sur la section sélectionnée
+
+** Org-Babel
+
+*** Org-Babel \\ Usages
+
+- /Literate Programming/ (/LP/)
+
+  Expliquer la logique du programme dans un langage naturel (tel que le
+  français), entrecoupé de bouts de code traditionnels
+
+- Exécution de code
+
+  Intégrer des bouts de code exécutable et/ou leurs résultats dans les
+  documents Org
+
+- /Reproducible Research/ (/RR/)
+
+  Créer des rapports dynamiques qui peuvent être mis à jour automatiquement si
+  les données ou l'analyse change
+
+*** Org-Babel \\ Langages supportés
+
+- =asymptote=
+- =awk=
+- =C++=
+- =C=
+- =calc=
+- =clojure=
+- =css=
+- =ditaa=
+- =dot=
+- =emacs-lisp=
+- =gnuplot=
+- =haskell=
+- =js=
+- =latex=
+- =ledger=
+- =lilypond=
+- =lisp=
+- =matlab=
+- =mscgen=
+- =ocaml=
+- =octave=
+- =org=
+- =perl=
+- =plantuml=
+- =python=
+- =R=
+- =ruby=
+- =sass=
+- =scheme=
+- =screen=
+- =sh=
+- =sql=
+- =sqlite=
+
+*** Org-Babel \\ Exécution de code --- Usages
+
+- Manuel d'opérations "exécutable"
+  + =cd <dir>=
+  + =ls=
+  + =cp <file>=
+  + =grep=
+
+- Transformation de données brutes en observations
+
+- Génération de code LaTeX (en Elisp ou n'importe quel autre langage) avec le
+  paramètre d'output =:results latex=
+
+*** Org-Babel \\ Exécution de code --- Code en ligne
+
+- Org
+
+  #+begin_src org :exports code
+,  En Calc, 1 + 2 = src_calc{1+2}.
+
+,  En R, 2 + 3 = src_R[:results raw]{2+3}.
+  #+end_src
+
+- LaTeX
+
+  #+begin_src latex :exports code
+  En Calc, 1 + 2 = \texttt{3}.
+
+  En R, 2 + 3 = 5.
+  #+end_src
+
+- PDF
+
+  En Calc, 1 + 2 = src_calc{1+2}.
+
+  En R, 2 + 3 = src_R[:results raw]{2+3}.
+
+*** Org-Babel \\ Exécution de code --- Code hors ligne
+
+- Org
+
+#+begin_src org :exports code
+,#+begin_src emacs-lisp :exports code
+,(message "%s" "hello world")
+,#+end_src
+#+end_src
+
+- LaTeX
+
+#+begin_src latex :exports code
+\begin{verbatim}
+ hello world
+\end{verbatim}
+#+end_src
+
+- PDF
+
+#+begin_src emacs-lisp :exports results
+(message "%s" "hello world")
+#+end_src
+
+*** Librairie de Babel
+
+- Manipulation de tables
+  + Filtrage
+  + Transposition
+  + Affichage à l'export
+
+- Graphiques
+
+- ...
+
+*** Exécution de code \\ SQL
+
+#+begin_src org :exports code
+,#+name: top-5-dossiers
+,#+begin_src sql
+,SELECT TOP 5 prsPfiID_fk, COUNT(*) AS 'Nb Prestations'
+,FROM prestations
+,GROUP BY prsPfiID_fk
+,ORDER BY COUNT(*) DESC
+,#+end_src
+
+,#+results: top-5-dossiers
+,| prsPfiID_fk    | Nb Prestations |
+,|----------------+----------------|
+,| 73/200509/0111 |             22 |
+,| 52/200302/0047 |             21 |
+,| 61/200604/0007 |             21 |
+,| 62/200312/0052 |             20 |
+,| 72/200511/0016 |             20 |
+#+end_src
+
+** Time clocking
+
+*** Time clocking \\ Track time
+
+#+begin_src org :exports code
+** TODO Laver les fenêtres à l'étage
+#+end_src
+
+- =C-c C-x e= (effort) :: Donner une estimation du temps de travail
+- =C-c C-x C-i= (in) ::
+- =C-c C-x C-j= (jump) ::
+- =C-c C-x C-o= (out) ::
+
+* Installation
+
+** Installation
+
+*** Installation du système
+
+- Version récente livrée avec *Emacs*
+
+  #+begin_src emacs-lisp
+  M-x org-version
+  #+end_src
+
+- Dernière version stable (~7.8.11~) sur http://orgmode.org/
+
+- Version de développement via Git
+
+  #+begin_src sh
+  git clone git://orgmode.org/org-mode.git
+  cd org-mode
+  make autoloads
+  #+end_src
+
+** Sources d'informations
+
+*** Sources d'informations
+
+- Manuels de référence
+  + [[http://orgmode.org/orgcard.pdf][Org mode Reference Card]] (2 pages)
+  + [[http://orgmode.org/orgguide.pdf][The compact Org mode Guide]] (\pm 40 pages)
+  + [[http://orgmode.org/org.pdf][The Org Manual]] (\pm 250 pages)
+
+- [[http://orgmode.org/worg/org-faq.html][FAQ Org mode]]
+
+- Site [[http://orgmode.org/worg/][Worg]] (= Wiki sur Org mode)
+  + Écrit en Org
+  + Publié en HTML
+
+- Site [[http://www.emacswiki.org/emacs/OrgMode][EmacsWiki]]
+
+- Liste de discussion [[mailto:emacs-orgmode@gnu.org][emacs-orgmode@gnu.org]]
+
+- Exemples de documents académiques rédigés en Org
+  + [[http://www.jstatsoft.org/v46/i03][Article publié au Journal of Statistical Software]]
+# + http://orgmode.org/worg/org-contrib/babel/uses.html#sec-6
+
+* Conclusions
+
+** Conclusions
+
+*** Approches
+
+- Org pour tout
+- LaTeX si pas de Babel
+- LaTeX avec =comment= pour l'édition de tables
+
+*** Avantages
+
+- *Séparation fond -- forme(s)*
+  + Concentrez-vous sur le contenu !
+  + Org mode vous le permet via sa syntaxe allégée et sa facilité d'édition
+  + Si des choses doivent être fixées, faites-le à la fin
+
+- *Une seule source*
+  + Données brutes
+  + Notes privées (mots de passe, rêveries, etc.)
+  + Analyses (bouts de code)
+  + Résultats
+  + /Inline tasks/ pour la gestion de tâches
+
+- Exporter
+  + Vers différents formats
+  + Uniquement les parties que l'on veut exporter
+
+*** Questions ?
+
+[[file:questions.png]]
+
+* Remerciements
+
+** Remerciements
+
+*** Remerciements
+
+Merci à Denis Bitouzé de m'avoir permis (d'essayer) de vous contaminer !
+
+[[file:thank-you-all-languages.png]]
+
+* Footnotes
+
+[fn:1] Evil = émulateur Vim pour Emacs
+
+[fn:2] Résumé hiérarchique des idées principales d'un sujet
+
+[fn:3] Sauf si =org-odd-levels-only= vaut =t=
+
+[fn:4] =M= = Meta (touche =Alt=)
+
+[fn:5] Déplacer d'un niveau /n/ à /n+1/
+
+[fn:6] Déplacer d'un niveau /n/ à /n-1/
+
+[fn:7] =S= = touche =Shift=
+
+[fn:8] À ajouter (pour ~Beamer~) à =org-export-latex-emphasis-alist=
+
+[fn:9] Un exemple de note de bas de page.
+
+[fn:10] Connaître LaTeX est utile en cas d'erreur
