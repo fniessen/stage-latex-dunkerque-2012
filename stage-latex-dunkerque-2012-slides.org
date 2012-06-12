@@ -2,7 +2,7 @@
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     fni@missioncriticalit.com
 #+DATE:      2012-06-13
-#+Time-stamp: <2012-06-12 Tue 21:52 Fabrice on MEDIACENTER>
+#+Time-stamp: <2012-06-12 Tue 22:08 Fabrice on MEDIACENTER>
 #+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 #+KEYWORDS:  stage, latex, org mode, dunkerque
 #+LANGUAGE:  fr_FR
@@ -89,7 +89,7 @@
 
 #+SETUPFILE: ~/src/org-style/bigblow-local.setup
 
-#+begin_src latex :exports none
+#+BEGIN_SRC latex :exports none
 % Sommaire local. En deux colonnes
 \begin{frame}{Plan}
   \begin{columns}[t]
@@ -101,7 +101,7 @@
   \end{column}
   \end{columns}
 \end{frame}
-#+end_src
+#+END_SRC
 
 * TODO Idées                                                        :noexport:
 
@@ -155,12 +155,12 @@ Voir :
 
 #+LaTeX: %\putpic{20}{20}{100}{100}{Carsten.png}
 
-#+begin_src latex
+#+BEGIN_SRC latex
 %\begin{textblock*}{30mm}[0,0](180mm,40mm)
 \begin{textblock*}{10mm}[0,0](0.92\textwidth,22mm)
     \includegraphics[width=17mm]{Carsten.png}
 \end{textblock*}
-#+end_src
+#+END_SRC
 
 ##+ATTR_LaTeX: width=1.7cm
 #[[file:Carsten.png]]
@@ -230,10 +230,10 @@ be all you need, and Org mode will not impose more complex features on you.
 
 - Paramétrage dans un fichier
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+LaTeX_CLASS: report
 ,#+LaTeX_CLASS_OPTION: [12pt]
-#+end_src
+#+END_SRC
 
 ** Packages
 
@@ -254,11 +254,11 @@ be all you need, and Org mode will not impose more complex features on you.
 
 *** Titre
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+TITLE:     Org mode pour LaTeXiens
 ,#+AUTHOR:    Fabrice Niessen
 ,#+DATE:      13 juin 2012
-#+end_src
+#+END_SRC
 
 ** Sectionnement
 
@@ -266,7 +266,7 @@ be all you need, and Org mode will not impose more complex features on you.
 
 - Une étoile par niveau de profondeur[fn:3]
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,* Heading de niveau 1
 ,** Heading de niveau 2
 ,*** Heading de niveau 3
@@ -275,7 +275,7 @@ be all you need, and Org mode will not impose more complex features on you.
 ,...
 ,...
 ,************** Heading de niveau 14
-#+end_src
+#+END_SRC
 
 - =M-RET= :: Insérer un nouvel /heading/[fn:4]
 
@@ -298,12 +298,12 @@ be all you need, and Org mode will not impose more complex features on you.
   2. Afficher tous les niveaux
   3. Afficher tout
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,* Introduction...
 ,* Expériences...
 ,* Résultats...
 ,* Conclusions...
-#+end_src
+#+END_SRC
 
 - =TAB= :: Cycler, dans un *sous-arbre*, entre 3 états
   1. Afficher le niveau courant uniquement
@@ -339,28 +339,28 @@ be all you need, and Org mode will not impose more complex features on you.
 
 - Cachés dans le /buffer/ Org avec
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
   (setq org-hide-emphasis-markers t)
-#+end_src
+#+END_SRC
 
 *** Mises en forme
 
 - Source Org
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 Il est _vraiment_ facile d'écrire *plein* de /distractions/.
 Ceci est du =co\de=.
 Ceci est du ~verb_atim~.
-#+end_src
+#+END_SRC
 
 - Export LaTeX
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 Il est \underline{vraiment} facile d'écrire \textbf{plein} de
 \emph{distractions}.
 Ceci est du \texttt{co\textbackslash{}de}.
 Ceci est du \verb~verb_atim~.
-#+end_src
+#+END_SRC
 
 - Effet
 
@@ -385,32 +385,32 @@ Ceci est du ~verb_atim~.
 
 *** Listes structurées \\ Listes à puces
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,- pain
 ,- vin
 ,- Boursin
-#+end_src
+#+END_SRC
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 \begin{itemize}
 \item pain
 \item vin
 \item Boursin
 \end{itemize}
-#+end_src
+#+END_SRC
 
 - =C-c ^= :: Trier les *éléments* (aussi pour les *sections*)
 - =C-c -= (ou =S-left/right=) :: Changer le style de puce
 
 *** Listes structurées \\ Listes à puces
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,- pain
 ,  + vin
 ,    * Boursin
-#+end_src
+#+END_SRC
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 \begin{itemize}
 \item pain
   \begin{itemize}
@@ -420,7 +420,7 @@ Ceci est du ~verb_atim~.
     \end{itemize}
   \end{itemize}
 \end{itemize}
-#+end_src
+#+END_SRC
 
 *** Listes structurées \\ Listes à puces avec boîtes à cocher
 
@@ -434,22 +434,22 @@ Ceci est du ~verb_atim~.
   + =[/]= :: =x= sur =y=
   + =[%]= :: En pourcentage
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,* Organiser une fête [33%]
 ,  - [-] Contacter les invités [1/2]
 ,    + [ ] Pierre
 ,    + [X] Sarah
 ,  - [X] Commander la nourriture
 ,  - [ ] Choisir la musique
-#+end_src
+#+END_SRC
 
 *** Listes structurées \\ Listes numérotées
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,1. Premier
 ,2. Second
 ,5. [@5] Saut vers le 5\ieme{} point
-#+end_src
+#+END_SRC
 
 1. Premier
 2. Second
@@ -457,19 +457,19 @@ Ceci est du ~verb_atim~.
 
 *** Listes structurées \\ Listes de description
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,- Biologie :: Étude de la vie.
 ,- Physique :: Science de la matière et de son mouvement.
 ,- Psychologie :: Étude du comportement.
-#+end_src
+#+END_SRC
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 \begin{description}
 \item[Biologie] Étude de la vie.
 \item[Physique] Science de la matière et de son mouvement.
 \item[Psychologie] Étude du comportement.
 \end{description}
-#+end_src
+#+END_SRC
 
 - Biologie :: Étude de la vie.
 - Physique :: Science de la matière et de son mouvement.
@@ -484,17 +484,17 @@ Ceci est du ~verb_atim~.
   + Sauter de la référence à la définition, ou
   + Sauter de la définition à la référence
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 Il est facile de créer une note de bas de page[fn:9]
 ...
 ...
 [fn:9] Un exemple de note de bas de page.
-#+end_src
+#+END_SRC
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 Il est facile de créer une note de bas de page\footnote{Un exemple
 de note de bas de page.}
-#+end_src
+#+END_SRC
 
 - Il est facile de créer une note de bas de page[fn:9]
 
@@ -516,7 +516,7 @@ de note de bas de page.}
     la propriété =ID=)
   + =C-c C-l= :: (N'importe où) Insérer une référence vers une ancre
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,Nous verrons ... à la section
 [[id:d34b788e-112d-4d8f-8749-d52b627d7bc2][Définitions]]
 
@@ -524,13 +524,13 @@ de note de bas de page.}
 ,   :PROPERTIES:
 ,   :ID:       d34b788e-112d-4d8f-8749-d52b627d7bc2
 ,   :END:
-#+end_src
+#+END_SRC
 
 *** Références hypertexte \\ Référence vers une ancre =CUSTOM_ID=
 
 - Référence vers une section nommée (via la propriété =CUSTOM_ID=)
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,Nous verrons ... à la section
 [[#definitions][Définitions]]
 
@@ -538,7 +538,7 @@ de note de bas de page.}
 ,   :PROPERTIES:
 ,   :CUSTOM_ID: definitions
 ,   :END:
-#+end_src
+#+END_SRC
 
 ** Commandes personnelles                                           :noexport:
 
@@ -546,26 +546,26 @@ de note de bas de page.}
 
 - Principe
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,#+MACRO: name replacement
-  #+end_src
+  #+END_SRC
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,{{{name}}}
-  #+end_src
+  #+END_SRC
 
 - Exemple avec paramètre
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,#+MACRO: key \textcolor{orange}{\texttt{$1}}
-  #+end_src
+  #+END_SRC
 #+MACRO: key \textcolor{orange}{\texttt{$1}}
 
 - Chaque fois que l'on écrit
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,{{{key(C-something)}}}
-  #+end_src
+  #+END_SRC
 
   cela donne {{{key(C-something)}}} lors de l'export LaTeX
 
@@ -575,21 +575,21 @@ de note de bas de page.}
 
 - Inclure un fichier lors de l'export
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,#+INCLUDE: "~/.emacs" src emacs-lisp
-  #+end_src
+  #+END_SRC
 
 - Inclure les lignes 5 à 10 (ligne 10 exclue)
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,#+INCLUDE: "~/.emacs" :lines "5-10"
-  #+end_src
+  #+END_SRC
 
 - Inclure toutes les lignes à partir de la ligne 5
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,#+INCLUDE: "~/.emacs" :lines "10-"
-  #+end_src
+  #+END_SRC
 
 *** Setupfile
 
@@ -601,21 +601,21 @@ de note de bas de page.}
 
 *** Équations \\ Formule en ligne
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 Il est clair que $1 \neq 2$, n'est-ce pas ?
-#+end_src
+#+END_SRC
 
 Il est clair que $1 \neq 2$, n'est-ce pas ?
 
 *** Équations \\ Formule hors ligne "simple"
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 \[
 \left( \int_0^\infty \frac{\sin x}{\sqrt x}\,\mathrm{d}x \right)^2 -
 \prod_{k=1}^\infty \frac{4k^2}{4k^2-1} +
 \frac{\lambda}{2n}\sum_{k=1} ^n \theta_k ^2 x^n = 0
 \]
-#+end_src
+#+END_SRC
 
 \[
 \left( \int_0^\infty \frac{\sin x}{\sqrt x}\,\mathrm{d}x \right)^2 -
@@ -629,11 +629,11 @@ Preuve laissée au lecteur...
 
 Densité de probabilité de la distribution gaussienne
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 \begin{equation}
   \frac{1}{\sqrt{2\pi\sigma^2}}e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
 \end{equation}
-#+end_src
+#+END_SRC
 
 \begin{equation}
   \frac{1}{\sqrt{2\pi\sigma^2}}e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
@@ -667,7 +667,7 @@ Densité de probabilité de la distribution gaussienne
 
 *** Tableaux
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+CAPTION: Chiffres de ventes
 ,#+ATTR_LaTeX: align=|l|r|
 ,|---------+---------|
@@ -679,7 +679,7 @@ Densité de probabilité de la distribution gaussienne
 ,|---------+---------|
 ,| Mars    |    1500 |
 ,|---------+---------|
-#+end_src
+#+END_SRC
 
 #+CAPTION: Chiffres de ventes
 #+ATTR_LaTeX: align=|l|r|
@@ -737,7 +737,7 @@ Densité de probabilité de la distribution gaussienne
 
 - Utiliser un environnement =comment=
 
-  #+begin_src latex :exports code
+  #+BEGIN_SRC latex :exports code
    % BEGIN RECEIVE ORGTBL chiffresdeventes
    % END RECEIVE ORGTBL chiffresdeventes
    \begin{comment}
@@ -752,7 +752,7 @@ Densité de probabilité de la distribution gaussienne
    #+TBLFM: $3=$2*1.206;%.0f::@5$2..@5$3=vsum(@2..@4)
    % $ (optional extra dollar to keep font-lock happy)
    \ end{comment}
-  #+end_src
+  #+END_SRC
 
 - Appuyer sur =C-c C-c= pour exporter le tableau en LaTeX
 
@@ -843,7 +843,7 @@ Densité de probabilité de la distribution gaussienne
 
 *** Tableur
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
 ,| Janvier | 1300 |
 ,| Février | 1280 |
@@ -851,7 +851,7 @@ Densité de probabilité de la distribution gaussienne
 ,|---------+------|
 ,| Total   | 4080 |
 ,#+TBLFM: @4$2=vsum(@1..@3)
-#+end_src
+#+END_SRC
 
 - =C-c *= :: Ré-appliquer les formules... pour la *ligne courante*
 - =C-u C-c *= :: ... pour toutes les lignes de la table
@@ -873,11 +873,11 @@ Densité de probabilité de la distribution gaussienne
 
 *** Figure
 
-#+begin_src org :exports both
+#+BEGIN_SRC org :exports both
 ,#+ATTR_LaTeX: width=.25\linewidth
 ,#+CAPTION: Exemple d'image (au format PNG)
 ,[[file:Carsten.png]]
-#+end_src
+#+END_SRC
 
 #+ATTR_LaTeX: width=.25\linewidth
 #+CAPTION: Exemple d'image (au format PNG)
@@ -897,9 +897,9 @@ Densité de probabilité de la distribution gaussienne
 
 *** Graphiques R
 
-#+begin_src R :results graphics :file testout.png
+#+BEGIN_SRC R :results graphics :file testout.png
 plot(1:10, (1:10)^2)
-#+end_src
+#+END_SRC
 
 #+results:
 [[file:testout.png]]
@@ -914,15 +914,15 @@ plot(1:10, (1:10)^2)
 | 5 | 25 |
 
 #+name: R-plot
-#+begin_src R :var data=R-plot-example-data
+#+BEGIN_SRC R :var data=R-plot-example-data
 plot(data)
-#+end_src
+#+END_SRC
 
 #+call: R-plot(data=R-plot-example-data)
 
 *** Graphiques Dot
 
-#+begin_src dot :file foo.pdf :cmdline -Tpdf :exports both
+#+BEGIN_SRC dot :file foo.pdf :cmdline -Tpdf :exports both
 digraph G {
   todo -> done [label="quick", style=dashed];
   todo -> started [label="in progress"]; started -> done;
@@ -932,11 +932,11 @@ digraph G {
   waiting [shape=polygon, sides=5, peripheries=3];
   done [style=bold];
 }
-#+end_src
+#+END_SRC
 
 *** Graphiques TikZ
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 \begin{tikzpicture}[scale=1.0]
   \begin{axis}[
     height=7cm, width=10cm,
@@ -955,11 +955,11 @@ digraph G {
       \closedcycle;
   \end{axis}
 \end{tikzpicture}
-#+end_src
+#+END_SRC
 
 *** Graphiques TikZ
 
-#+begin_src latex
+#+BEGIN_SRC latex
 \begin{tikzpicture}[scale=1.0]
   \begin{axis}[
     height=7cm, width=10cm,
@@ -978,13 +978,13 @@ digraph G {
       \closedcycle;
   \end{axis}
 \end{tikzpicture}
-#+end_src
+#+END_SRC
 
 ** Citations
 
 *** Citations
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+begin_quote
 ,We have seen that computer programming is an art,
 ,because it applies accumulated knowledge to the world,
@@ -992,7 +992,7 @@ digraph G {
 ,because it produces objects of beauty.
 ,-- Donald E. Knuth (Communications of the ACM, December 1974)
 ,#+end_quote
-#+end_src
+#+END_SRC
 
 #+begin_quote
 We have seen that computer programming is an art,
@@ -1006,25 +1006,25 @@ because it produces objects of beauty.
 
 *** Listings informatiques
 
-#+begin_src org :exports code
-,#+begin_src sql
+#+BEGIN_SRC org :exports code
+,#+BEGIN_SRC sql
 ,SELECT *
 ,FROM inventory
 ,WHERE product IN
 ,     (SELECT product
 ,      FROM orders
 ,      WHERE customer IN ('Pierre','Sarah'));
-,#+end_src
-#+end_src
+,#+END_SRC
+#+END_SRC
 
-#+begin_src sql
+#+BEGIN_SRC sql
 SELECT *
 FROM inventory
 WHERE product IN
      (SELECT product
       FROM orders
       WHERE customer IN ('Pierre','Sarah'));
-#+end_src
+#+END_SRC
 
 ** Blocs
 
@@ -1057,19 +1057,19 @@ WHERE product IN
 
 *** Verbatim
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+begin_verbatim
 ,L'environnement  verbatim  affiche exactement ce que
 ,     l'on écrit, e s p a c e s compris!
 ,#+end_verbatim
-#+end_src
+#+END_SRC
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 \begin{verbatim}
 L'environnement  verbatim  affiche exactement ce que
      l'on écrit, e s p a c e s compris!
 \end{verbatim}
-#+end_src
+#+END_SRC
 
 #+begin_verbatim
 L'environnement  verbatim  affiche exactement ce que
@@ -1078,11 +1078,11 @@ L'environnement  verbatim  affiche exactement ce que
 
 *** Commentaire
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 #+begin_comment
 Quelques paragraphes qui ne vont pas apparaître dans le PDF.
 #+end_comment
-#+end_src
+#+END_SRC
 
 Quelques paragraphes qui ne vont pas apparaître dans le PDF.
 
@@ -1094,7 +1094,7 @@ Quelques paragraphes qui ne vont pas apparaître dans le PDF.
 
 *** Dissertation
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,* Introduction...
 ,* Methodology...
 ,* Findings...
@@ -1103,7 +1103,7 @@ Quelques paragraphes qui ne vont pas apparaître dans le PDF.
 ,#+LaTeX: \appendix
 ,* Appendix A...
 ,* Appendix B...
-#+end_src
+#+END_SRC
 
 Use the =\appendix= command to turn on alphabetic numbering.
 
@@ -1129,7 +1129,7 @@ Use the =\appendix= command to turn on alphabetic numbering.
 
 *** Options d'export \\ /Template/ inséré via =C-c C-e t=
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 ,#+KEYWORDS:  stage, latex, org-mode, dunkerque
 ,#+LANGUAGE:  fr
@@ -1139,7 +1139,7 @@ Use the =\appendix= command to turn on alphabetic numbering.
 ,#+INFOJS_OPT: path:http://orgmode.org/org-info.js
 ,#+EXPORT_SELECT_TAGS: export
 ,#+EXPORT_EXCLUDE_TAGS: noexport
-#+end_src
+#+END_SRC
 
 ** Commande
 
@@ -1154,7 +1154,7 @@ Use the =\appendix= command to turn on alphabetic numbering.
 
 - Possibilité d'automatiser la génération d'un PDF via un ~Makefile~
 
-#+begin_src sh :exports code
+#+BEGIN_SRC sh :exports code
 EMACS_BATCH = emacs --batch -Q
 ORG_FLAGS = --eval "(add-to-list 'load-path \"~/src/org-mode/lisp\")"
 ORG_BATCH = $(EMACS_BATCH) $(ORG_FLAGS) -l org-batch-init.el
@@ -1164,7 +1164,7 @@ ORG_BATCH = $(EMACS_BATCH) $(ORG_FLAGS) -l org-batch-init.el
 	@echo "Exporting $< to PDF..."
 	@$(ORG_BATCH) $< -f org-export-as-pdf
 	@echo "$@ successfully generated"
-#+end_src
+#+END_SRC
 
 * Avancé
 
@@ -1211,18 +1211,18 @@ ORG_BATCH = $(EMACS_BATCH) $(ORG_FLAGS) -l org-batch-init.el
 - Cryptage lors de la sauvegarde du fichier
 - /Heading/ reste en clair, donc utilisable dans les recherches
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,*** Actions à prendre
 
 ,*** Mots de passe                                           :crypt:
 
 ,- client :: secret
 ,- serveur :: chuuut!
-#+end_src
+#+END_SRC
 
 *** Crypt
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,*** Actions à prendre
 
 ,*** Mots de passe                                           :crypt:
@@ -1239,7 +1239,7 @@ ORG_BATCH = $(EMACS_BATCH) $(ORG_FLAGS) -l org-batch-init.el
 ,AqRo44YT
 ,=zVC2
 ,-----END PGP MESSAGE-----
-#+end_src
+#+END_SRC
 
 - =M-x org-decrypt-entry= :: Décrypter la section
 
@@ -1252,11 +1252,11 @@ ORG_BATCH = $(EMACS_BATCH) $(ORG_FLAGS) -l org-batch-init.el
 - =C-c C-x t= :: Insérer une /inline task/ (si paquet =org-inlinetask= chargé) :
   niveau 15 et suivants
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
   ,*************** TODO Faire ceci
   ,Description...
   ,*************** END
-  #+end_src
+  #+END_SRC
 
 ** Agenda
 
@@ -1286,14 +1286,14 @@ Avec tâches répétitives
 
 - Affichage de tous les /headings/ de niveau 1 et 2
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 Introduction / LaTeX
 Introduction / Org mode
 Structuration / Fichier
 Structuration / Packages
 Structuration / Titre
 Structuration / Sectionnement
-#+end_src
+#+END_SRC
 
 - Possibilité de limiter la liste avec une /regexp/
 
@@ -1371,19 +1371,19 @@ Structuration / Sectionnement
 
 - Org
 
-  #+begin_src org :exports code
+  #+BEGIN_SRC org :exports code
 ,  En Calc, 1 + 2 = src_calc{1+2}.
 
 ,  En R, 2 + 3 = src_R[:results raw]{2+3}.
-  #+end_src
+  #+END_SRC
 
 - LaTeX
 
-  #+begin_src latex :exports code
+  #+BEGIN_SRC latex :exports code
   En Calc, 1 + 2 = \texttt{3}.
 
   En R, 2 + 3 = 5.
-  #+end_src
+  #+END_SRC
 
 - PDF
 
@@ -1395,25 +1395,25 @@ Structuration / Sectionnement
 
 - Org
 
-#+begin_src org :exports code
-,#+begin_src emacs-lisp :exports code
+#+BEGIN_SRC org :exports code
+,#+BEGIN_SRC emacs-lisp :exports code
 ,(message "%s" "hello world")
-,#+end_src
-#+end_src
+,#+END_SRC
+#+END_SRC
 
 - LaTeX
 
-#+begin_src latex :exports code
+#+BEGIN_SRC latex :exports code
 \begin{verbatim}
  hello world
 \end{verbatim}
-#+end_src
+#+END_SRC
 
 - PDF
 
-#+begin_src emacs-lisp :exports results
+#+BEGIN_SRC emacs-lisp :exports results
 (message "%s" "hello world")
-#+end_src
+#+END_SRC
 
 *** Librairie de Babel
 
@@ -1428,14 +1428,14 @@ Structuration / Sectionnement
 
 *** Exécution de code \\ SQL
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ,#+name: top-5-dossiers
-,#+begin_src sql
+,#+BEGIN_SRC sql
 ,SELECT TOP 5 prsPfiID_fk, COUNT(*) AS 'Nb Prestations'
 ,FROM prestations
 ,GROUP BY prsPfiID_fk
 ,ORDER BY COUNT(*) DESC
-,#+end_src
+,#+END_SRC
 
 ,#+results: top-5-dossiers
 ,| prsPfiID_fk    | Nb Prestations |
@@ -1445,15 +1445,15 @@ Structuration / Sectionnement
 ,| 61/200604/0007 |             21 |
 ,| 62/200312/0052 |             20 |
 ,| 72/200511/0016 |             20 |
-#+end_src
+#+END_SRC
 
 ** Time clocking
 
 *** Time clocking \\ Track time
 
-#+begin_src org :exports code
+#+BEGIN_SRC org :exports code
 ** TODO Laver les fenêtres à l'étage
-#+end_src
+#+END_SRC
 
 - =C-c C-x e= (effort) :: Donner une estimation du temps de travail
 - =C-c C-x C-i= (in) ::
@@ -1468,19 +1468,19 @@ Structuration / Sectionnement
 
 - Version récente livrée avec *Emacs*
 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   M-x org-version
-  #+end_src
+  #+END_SRC
 
 - Dernière version stable (~7.8.11~) sur http://orgmode.org/
 
 - Version de développement via Git
 
-  #+begin_src sh
+  #+BEGIN_SRC sh
   git clone git://orgmode.org/org-mode.git
   cd org-mode
   make autoloads
-  #+end_src
+  #+END_SRC
 
 ** Sources d'informations
 
