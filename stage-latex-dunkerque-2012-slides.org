@@ -2,7 +2,7 @@
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     fni@missioncriticalit.com
 #+DATE:      2012-06-13
-#+Time-stamp: <2012-06-12 Tue 22:08 Fabrice on MEDIACENTER>
+#+Time-stamp: <2012-06-13 Wed 21:07 Fabrice on MEDIACENTER>
 #+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 #+KEYWORDS:  stage, latex, org mode, dunkerque
 #+LANGUAGE:  fr_FR
@@ -286,8 +286,8 @@ be all you need, and Org mode will not impose more complex features on you.
   + =M-right= :: "Démouvoir"[fn:6] la section
 
 - *Sous-arbre*
-  + =M-S-up= :: Déplacer le sous-arbre vers le haut[fn:7]
-  + =M-S-down= :: Déplacer le sous-arbre vers le bas
+  + =M(-S)-up= :: Déplacer le sous-arbre vers le haut[fn:7]
+  + =M(-S)-down= :: Déplacer le sous-arbre vers le bas
   + =M-S-left= :: Promouvoir le sous-arbre
   + =M-S-right= :: "Démouvoir" le sous-arbre
 
@@ -588,7 +588,7 @@ de note de bas de page.}
 - Inclure toutes les lignes à partir de la ligne 5
 
   #+BEGIN_SRC org :exports code
-  ,#+INCLUDE: "~/.emacs" :lines "10-"
+  ,#+INCLUDE: "~/.emacs" :lines "5-"
   #+END_SRC
 
 *** Setupfile
