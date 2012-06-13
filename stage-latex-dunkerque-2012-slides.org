@@ -2,7 +2,7 @@
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     fni@missioncriticalit.com
 #+DATE:      2012-06-13
-#+Time-stamp: <2012-06-13 Wed 21:46 Fabrice on MEDIACENTER>
+#+Time-stamp: <2012-06-13 Wed 22:01 Fabrice on MEDIACENTER>
 #+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 #+KEYWORDS:  stage, latex, org mode, dunkerque
 #+LANGUAGE:  fr_FR
@@ -148,6 +148,10 @@ Voir :
 ** TODO Montrer l'exemple de Babel qui chaîne plusieurs blocs en langages différents
 
 ** TODO Expliquer le process de tangle
+
+** TODO Insérer une TOC en multicolonnes
+
+** TODO Fixer les pages qui débordent
 
 * Introduction
 
@@ -755,29 +759,6 @@ Densité de probabilité de la distribution gaussienne
   + =n= :: ordre numérique
   + =N= :: ordre numérique inverse
 
-*** Tableau Org dans source LaTeX
-
-- Utiliser un environnement =comment=
-
-  #+BEGIN_SRC latex :exports code
-   % BEGIN RECEIVE ORGTBL chiffresdeventes
-   % END RECEIVE ORGTBL chiffresdeventes
-   \begin{comment}
-   #+ORGTBL: SEND chiffresdeventes orgtbl-to-latex
-   | Mois    | HTVA | TVAC |
-   |---------+------+------|
-   | Janvier | 1300 | 1568 |
-   | Février | 1280 | 1544 |
-   | Mars    | 1500 | 1809 |
-   |---------+------+------|
-   | Total   | 4080 | 4921 |
-   #+TBLFM: $3=$2*1.206;%.0f::@5$2..@5$3=vsum(@2..@4)
-   % $ (optional extra dollar to keep font-lock happy)
-   \ end{comment}
-  #+END_SRC
-
-- Appuyer sur =C-c C-c= pour exporter le tableau en LaTeX
-
 *** Tableur \\ Références
 
 - Référence absolue (format interne) =@l$c=
@@ -811,11 +792,37 @@ Densité de probabilité de la distribution gaussienne
 
 - Référence externe =remote(nom-de-table,référence)=
 
-*** Tableur \\ Calculs
+*** Tableur \\ Formules
 
-- =C-c == :: Insérer une formule *colonne* =$c==
-- =C-u C-c == :: Insérer une formule *cellule* =@l$c==
-- À la main :: Insérer une formule *range de cellules en ligne* =@l$c..@l$c==
+- Insérer une formule
+  + =C-c == :: Insérer une formule *colonne* =$c==
+  + =C-u C-c == :: Insérer une formule *cellule* =@l$c==
+  + À la main :: Insérer une formule *range de cellules en ligne* =@l$c..@l$c==
+
+- Recalculer
+  + =C-c *= :: Ré-appliquer les formules... pour la *ligne courante*
+  + =C-u C-c *= :: ... pour toutes les lignes de la table
+  + =C-u C-u C-c *= :: ... jusqu'à ce que la *table* soit *stable*
+
+*** Tableur \\ Formules
+
+#+BEGIN_SRC org :exports code
+,#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
+,| Janvier | 1300 |
+,| Février | 1280 |
+,| Mars    | 1500 |
+,|---------+------|
+,| Total   | 4080 |
+,#+TBLFM: @4$2=vsum(@1..@3)
+#+END_SRC
+
+#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
+| Janvier | 1300 |
+| Février | 1280 |
+| Mars    | 1500 |
+|---------+------|
+| Total   | 4080 |
+#+TBLFM: @4$2=vsum(@1..@3)
 
 *** Tableur \\ Fonctions (voir manuel de GNU Emacs Calc)
 
@@ -863,33 +870,32 @@ Densité de probabilité de la distribution gaussienne
 - =C-c {= :: Activer le débogueur (montrer l'historique de substitution pour les
   formules)
 
-*** Tableur
-
-#+BEGIN_SRC org :exports code
-,#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
-,| Janvier | 1300 |
-,| Février | 1280 |
-,| Mars    | 1500 |
-,|---------+------|
-,| Total   | 4080 |
-,#+TBLFM: @4$2=vsum(@1..@3)
-#+END_SRC
-
-- =C-c *= :: Ré-appliquer les formules... pour la *ligne courante*
-- =C-u C-c *= :: ... pour toutes les lignes de la table
-- =C-u C-u C-c *= :: ... jusqu'à ce que la *table* soit *stable*
-
-#+ATTR_LaTeX: align=r@{~:~}r@{~\EUR}l
-| Janvier | 1300 |
-| Février | 1280 |
-| Mars    | 1500 |
-|---------+------|
-| Total   | 4080 |
-#+TBLFM: @4$2=vsum(@1..@3)
-
 *** Table distante
 
 - Remote
+
+*** Tableau Org dans source LaTeX
+
+- Utiliser un environnement =comment=
+
+  #+BEGIN_SRC latex :exports code
+   % BEGIN RECEIVE ORGTBL chiffresdeventes
+   % END RECEIVE ORGTBL chiffresdeventes
+   \begin{comment}
+   #+ORGTBL: SEND chiffresdeventes orgtbl-to-latex
+   | Mois    | HTVA | TVAC |
+   |---------+------+------|
+   | Janvier | 1300 | 1568 |
+   | Février | 1280 | 1544 |
+   | Mars    | 1500 | 1809 |
+   |---------+------+------|
+   | Total   | 4080 | 4921 |
+   #+TBLFM: $3=$2*1.206;%.0f::@5$2..@5$3=vsum(@2..@4)
+   % $ (optional extra dollar to keep font-lock happy)
+   \ end{comment}
+  #+END_SRC
+
+- Appuyer sur =C-c C-c= pour exporter le tableau en LaTeX
 
 ** Figures
 
