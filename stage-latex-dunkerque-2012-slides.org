@@ -2,7 +2,7 @@
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     fni@missioncriticalit.com
 #+DATE:      2012-06-13
-#+Time-stamp: <2012-06-13 Wed 22:01 Fabrice on MEDIACENTER>
+#+Time-stamp: <2012-06-13 Wed 22:34 Fabrice on MEDIACENTER>
 #+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 #+KEYWORDS:  stage, latex, org mode, dunkerque
 #+LANGUAGE:  fr_FR
@@ -152,6 +152,8 @@ Voir :
 ** TODO Insérer une TOC en multicolonnes
 
 ** TODO Fixer les pages qui débordent
+
+** TODO Passer à ListingsUTF8
 
 * Introduction
 
@@ -932,7 +934,7 @@ plot(1:10, (1:10)^2)
 #+results:
 [[file:testout.png]]
 
-*** Graphiques Dot
+*** Graphiques R
 
 #+TBLNAME: R-plot-example-data
 | 1 |  2 |
@@ -949,6 +951,9 @@ plot(data)
 #+call: R-plot(data=R-plot-example-data)
 
 *** Graphiques Dot
+    :PROPERTIES:
+    :BEAMER_envargs: [shrink]
+    :END:
 
 #+BEGIN_SRC dot :file foo.pdf :cmdline -Tpdf :exports both
 digraph G {
