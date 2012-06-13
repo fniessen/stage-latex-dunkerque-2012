@@ -2,7 +2,7 @@
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     fni@missioncriticalit.com
 #+DATE:      2012-06-13
-#+Time-stamp: <2012-06-13 Wed 21:07 Fabrice on MEDIACENTER>
+#+Time-stamp: <2012-06-13 Wed 21:46 Fabrice on MEDIACENTER>
 #+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 #+KEYWORDS:  stage, latex, org mode, dunkerque
 #+LANGUAGE:  fr_FR
@@ -103,7 +103,7 @@
 \end{frame}
 #+END_SRC
 
-* TODO Idées                                                        :noexport:
+* Autres présentations                                              :noexport:
 
 ** Mes slides
 
@@ -126,6 +126,28 @@ Voir :
 - https://github.com/vxc/org-mode-ws/blob/master/outline.org
 - https://github.com/novoid/org-mode-workshop
 - https://github.com/eschulte/babel-presentation
+
+* Tâches                                                            :noexport:
+
+** TODO Parler de LaTeX_HEADER
+
+** TODO Montrer des exemples avec tabularx
+
+** TODO Parler des speed commands
+
+** TODO Montrer une référence vers une figure
+
+** TODO Montrer une référence vers (section ou ligne d') un fichier externe
+
+** TODO Fixer le graphique R
+
+** TODO Ajouter un graphique Asymptote
+
+** TODO Indiquer la hiérarchie des modes majeurs Org (outline et text)
+
+** TODO Montrer l'exemple de Babel qui chaîne plusieurs blocs en langages différents
+
+** TODO Expliquer le process de tangle
 
 * Introduction
 
