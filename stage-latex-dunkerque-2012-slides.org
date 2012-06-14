@@ -2,7 +2,7 @@
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     fni@missioncriticalit.com
 #+DATE:      2012-06-13
-#+Time-stamp: <2012-06-13 Wed 22:34 Fabrice on MEDIACENTER>
+#+Time-stamp: <2012-06-14 Thu 23:38 Fabrice on MEDIACENTER>
 #+DESCRIPTION: Tout ce que vous avez toujours voulu savoir sur Org
 #+KEYWORDS:  stage, latex, org mode, dunkerque
 #+LANGUAGE:  fr_FR
@@ -78,16 +78,16 @@
 
 #+startup: beamer
 #+LaTeX_CLASS: beamer
-#+LaTeX_CLASS_OPTIONS: [frenchb,presentation,t,hideothersubsections]
+#+LaTeX_CLASS_OPTIONS: [presentation,t,hideothersubsections]
 #+BEAMER_HEADER_EXTRA: \usetheme{mc}\usecolortheme{default}
 #+BEAMER_FRAME_LEVEL: 3
 #+COLUMNS: %40ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
 
 #+BEAMER_HEADER_EXTRA: \logo{\includegraphics[height=2cm]{org-mode-unicorn}}
 
-#+LaTeX_HEADER: \usepackage{babel}
+#+LaTeX_HEADER: \usepackage[frenchb]{babel}
 
-#+SETUPFILE: ~/src/org-style/bigblow-local.setup
+##+SETUPFILE: ~/src/org-style/bigblow-local.setup
 
 #+BEGIN_SRC latex :exports none
 % Sommaire local. En deux colonnes
@@ -102,6 +102,16 @@
   \end{columns}
 \end{frame}
 #+END_SRC
+
+#+LaTeX_HEADER: \usepackage{multicol}
+
+#+begin_src latex :exports none
+\begin{frame}{\contentsname}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+\end{frame}
+#+end_src
 
 * Autres présentations                                              :noexport:
 
@@ -153,7 +163,32 @@ Voir :
 
 ** TODO Fixer les pages qui débordent
 
-** TODO Passer à ListingsUTF8
+** TODO Passer à Listings2 (UTF-8)
+
+** TODO Utiliser listingsinline pour code
+
+* Ce que Ludovic ne connaissait pas                            :noexport:mail:
+  [2012-06-12 Tue 13:49]
+
+#+begin_verse
+Je ne connaissais pas :
+- le tri des listes
+- le saut dans la numérotation des listes (mais c'est vraiment du détail par
+  rapport au tri)
+- les #+include
+- possibilités des formules hors ligne avec juste \[ (et leur prévisualisation
+  dans emacs)
+- C-c |
+- les références symboliques et nommées dans les formules
+- row formula
+- les différents modes d'édition/affichage des formules
+- le débogueur (même si ça a l'air un peu compliqué à suivre)
+- "< l TAB" et autres
+- les recherches avancées, au delà du sparse tree.
+- Helm
+#+end_verse
+
+From [[gnus:nnimap%2Bmc:INBOX.mc#4FD72CCD.4030902@missioncriticalit.com][Email from Ludovic Langevine: Re: Slides v0.98]]
 
 * Introduction
 
